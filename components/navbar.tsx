@@ -19,9 +19,6 @@ const Navbar = () => {
           <Link href="/add">
             <li className=" btn btn-primary">List Your Agent</li>
           </Link>
-          {/* <li>
-            <a>Browse</a>
-          </li> */}
         </ul>
       </div>
     </div>
