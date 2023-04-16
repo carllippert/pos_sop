@@ -1,28 +1,23 @@
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import Account from "../components/Account";
+import Layout from "@/components/layout";
+import Search from "@/components/search";
 
 const Home = () => {
-  const session = useSession();
-  const supabase = useSupabaseClient();
-
   return (
-    <div>
-      {!session ? (
-        <div className="mx-auto max-w-3xl pt-12 px-4 sm:px-6 lg:px-8">
-          <div className="text-7xl font-bold py-5 text-center">Anything</div>
-          <Auth
-            providers={[]}
-            supabaseClient={supabase}
-            appearance={{ theme: ThemeSupa }}
-            theme="default"
-          />
+    <Layout>
+      <div className="hero min-h-screen">
+        <div className="hero-content text-center">
+          <div className="max-w-md">
+            <h1 className="text-5xl font-bold pb-5">
+              <span className="">Do</span>{" "}
+              <span className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-purple-600">
+                Anything
+              </span>
+            </h1>
+            <Search className="w-full" mobile={false} />
+          </div>
         </div>
-      ) : (
-        <Account session={session} />
-      )}
-    </div>
+      </div>
+    </Layout>
   );
 };
 
