@@ -16,16 +16,21 @@ import {
   useSupabaseClient,
   Session,
 } from "@supabase/auth-helpers-react";
+import { Database } from "@/utils/database.types";
 
 interface AgentFields {
   name: string;
   price: string;
   description: string;
+  avatar_url: string;
+  external_url: string;
 }
 
 const Create = () => {
   const user = useUser();
   const router = useRouter();
+  const supabase = useSupabaseClient<Database>();
+
   const [isLoading, setIslLoading] = useState(false);
 
   const {
@@ -36,33 +41,41 @@ const Create = () => {
   } = useForm<AgentFields>();
 
   const [image, setImage] = useState<File>();
-  // const [pdf, setPdf] = useState<File>();
 
-  // const { mutate: createProduct, isLoading } = useCreateProduct({
-  //   onSuccess(receipt) {
-  //     reset();
+  const onSubmit = handleSubmit(async (form) => {
+    try {
+      if (!image) return;
+      if (!user) return;
+      const { name, description, price, avatar_url, external_url } = form;
 
-  //     if (!receipt) return;
-  //     const slug = receipt.events?.find((e) => e.event === "ProductCreated")
-  //       ?.args?._slug;
+      setIslLoading(true);
+      //TODO  upload image first to get url
 
-  //     router.push(`/${slug}`);
-  //   },
-  // });
+      const { data, error } = await supabase
+        .from("agents")
+        .insert({
+          name: name,
+          slug: slugify(name).toLowerCase(),
+          description: description,
+          price: Number(price),
+          avatar_url: avatar_url,
+          external_url: external_url,
+          user_id: user.id,
+        })
+        .select();
 
-  const onSubmit = handleSubmit((data) => {
-    if (!image) return;
-    const { name, description, price } = data;
+      if (error) {
+        console.log(error);
+      }
 
-    //TODO: supabase create
-    // createProduct({
-    //   name: data.name,
-    //   slug: slugify(name).toLowerCase(),
-    //   description,
-    //   price: ethers.utils.parseEther(price),
-    //   image,
-    //   pdf,
-    // });
+      if (data) {
+        router.push(`/${data[0].slug}`);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIslLoading(false);
+    }
   });
 
   return (
@@ -84,6 +97,20 @@ const Create = () => {
             {...register("price", { required: "Price is required" })}
             error={errors.price?.message}
           />
+          <Input
+            label="Avatar URL"
+            type="text"
+            block
+            {...register("price", { required: "Price is required" })}
+            error={errors.avatar_url?.message}
+          />
+          <Input
+            label="Site URL"
+            type="text"
+            block
+            {...register("price", { required: "Price is required" })}
+            error={errors.external_url?.message}
+          />
           <TextArea
             label="Description"
             rows={3}
@@ -92,7 +119,7 @@ const Create = () => {
             })}
             error={errors.description?.message}
           />
-          <div className="flex gap-4 flex-col sm:flex-row">
+          {/* <div className="flex gap-4 flex-col sm:flex-row">
             <div className="flex-1">
               <Label>Image</Label>
               <UploadFile
@@ -110,7 +137,7 @@ const Create = () => {
                 accept="application/pdf"
               />
             </div> */}
-          </div>
+          {/* </div> */}
 
           <Button
             className="mt-2 tracking-wider"

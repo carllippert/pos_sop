@@ -17,7 +17,7 @@ const Search = ({
     <div className={`form-control ${className}`}>
       <input
         type="text"
-        placeholder="What do you want done?"
+        placeholder="Search AI Agents"
         className="input input-bordered border-gray-400 text-gray-400 bg-inherit"
         value={searchValue}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>

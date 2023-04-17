@@ -1,5 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import {
+  useUser,
+  useSupabaseClient,
+  Session,
+} from "@supabase/auth-helpers-react";
+import { Database } from "../utils/database.types";
 
 interface PopUpFormProps {
   threshold?: number;
@@ -11,6 +17,7 @@ function PopUpForm({ threshold = 500 }: PopUpFormProps) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     console.log(`Submitting email ${email}`);
     setIsOpen(false);
   }

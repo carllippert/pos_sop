@@ -10,12 +10,14 @@ import {
   useSupabaseClient,
   Session,
 } from "@supabase/auth-helpers-react";
+import Layout from "@/components/layout";
+import Container from "@/components/container";
 type Agent = Database["public"]["Tables"]["agents"]["Row"];
 
 const Agent = () => {
   //check for slug
   const router = useRouter();
-  const slug = router.query.slug?.toString();
+  const slug = router.query.agent?.toString();
   const supabase = useSupabaseClient<Database>();
 
   const fetchAgent = async () => {
@@ -39,10 +41,41 @@ const Agent = () => {
 
   const [agent, setAgent] = useState<Agent | null>(null);
 
-  if (!slug) return null;
-  if (!agent) return <Spinner />;
+  if (!slug) return <div>shit</div>;
+  if (!agent)
+    return (
+      <Layout>
+        <div className="pt-60 pl-60">
+          <Spinner />
+        </div>
+      </Layout>
+    );
 
-  return <div>{`${JSON.stringify(agent)}`}</div>;
+  return (
+    <Layout cta="Remix Agent" href="/create">
+      <Container className="mt-32 pb-10">
+        <div className="flex flex-col w-full border-opacity-50">
+          <div className="h-40 card bg-base-300 rounded-box flex flex-row">
+            <img
+              className="rounded-full h-23 w-32 m-4"
+              src={agent.avatar_url}
+            />
+            <div className="flex-col my-auto pl-10">
+              <p className="text-5xl pb-2">{agent.name}</p>
+              <p>{agent.description}</p>
+            </div>
+          </div>
+          <div className="divider">Details</div>
+          <div className="grid p-4 card bg-base-300 rounded-box">
+            <div>Site: {agent.external_url}</div>
+            <div>Reviews: Coming Soon</div>
+            <div>Usage Trends: Coming Soon</div>
+            <div>API: Coming Soon</div>
+          </div>
+        </div>
+      </Container>
+    </Layout>
+  );
 };
 
 // export async function getStaticPaths() {

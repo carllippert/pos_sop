@@ -15,6 +15,7 @@ export interface Database {
           created_at: string | null
           description: string
           external_url: string
+          fake: boolean
           id: number
           name: string
           pirce_description: string | null
@@ -27,6 +28,7 @@ export interface Database {
           created_at?: string | null
           description: string
           external_url: string
+          fake?: boolean
           id?: number
           name: string
           pirce_description?: string | null
@@ -39,12 +41,30 @@ export interface Database {
           created_at?: string | null
           description?: string
           external_url?: string
+          fake?: boolean
           id?: number
           name?: string
           pirce_description?: string | null
           price?: number | null
           slug?: string
           user_id?: string
+        }
+      }
+      email_capture: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: number
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: number
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: number
         }
       }
       profiles: {

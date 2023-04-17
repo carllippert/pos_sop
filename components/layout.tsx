@@ -2,7 +2,15 @@ import Head from "next/head";
 import { NextSeo } from "next-seo";
 import Navbar from "./navbar";
 
-const Layout = ({ children }: { children: any }) => {
+const Layout = ({
+  children,
+  cta = "List Agent",
+  href = "/add",
+}: {
+  children: any;
+  cta?: string;
+  href?: string;
+}) => {
   return (
     <div className="min-h-screen min-w-screen flex flex-col">
       <Head>
@@ -20,13 +28,13 @@ const Layout = ({ children }: { children: any }) => {
           description: "ai agent marketplace",
           //TODO: add og image
           images: [
-            // {
-            //   url: "https://qqhuhpdwqoguhxekruva.supabase.co/storage/v1/object/public/public/Web3%20Gumroad.png",
-            //   width: 1200,
-            //   height: 630,
-            //   alt: "Og Image Alt",
-            //   type: "image/jpeg",
-            // },
+            {
+              url: "https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/ANYTHING.png",
+              width: 1200,
+              height: 630,
+              alt: "Og Image Alt",
+              type: "image/jpeg",
+            },
           ],
           siteName: "Anything",
         }}
@@ -35,9 +43,14 @@ const Layout = ({ children }: { children: any }) => {
         }}
       />
 
-      <Navbar />
+      <Navbar cta={cta} href={href} />
       <main className="flex-1">{children}</main>
-      <footer className="h-32"></footer>
+      <footer className="h-32 text-center">
+        Bugs? Want to talk?{" "}
+        <a className="underline" href="https://twitter.com/carllippert">
+          dm Carl
+        </a>
+      </footer>
     </div>
   );
 };

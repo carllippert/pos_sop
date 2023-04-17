@@ -22,7 +22,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "components/container.tsx"
+    "components/container.tsx",
+    "components/basic/sparkline.jsx"
   ],
   "exclude": ["node_modules"]
 }
